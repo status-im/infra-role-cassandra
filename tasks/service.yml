@@ -1,0 +1,23 @@
+---
+- name: Create data directory
+  file:
+    path: '{{ cassandra_data_dir }}'
+    state: directory
+    owner: '{{ cassandra_service_user }}'
+    group: 'adm'
+    mode: 0775
+
+- name: Create systemd Unit file
+  template:
+    src: 'cassandra.service.j2'
+    dest: '/lib/systemd/system/{{ cassandra_service_name }}.service'
+    mode: 0644
+
+- name: Reload Systemctl
+  command: systemctl daemon-reload
+
+- name: Start Service
+  service:
+    name: '{{ cassandra_service_name }}.service'
+    state: restarted
+    enabled: true

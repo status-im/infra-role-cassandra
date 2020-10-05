@@ -1,0 +1,34 @@
+---
+- name: Install OpenJDK8
+  apt:
+    name: openjdk-8-jre-headless
+
+- name: Download binary tarball
+  get_url:
+    url: '{{ cassandra_tarball_url }}'
+    dest: '/tmp/{{ cassandra_tarball_file }}'
+    checksum: 'sha256:{{ cassandra_tarball_sha256 }}'
+
+- name: Create Service User
+  user:
+    name: '{{ cassandra_service_user }}'
+    group: daemon
+    comment: 'Cassandra service user'
+
+- name: Create install directory
+  file:
+    path: '{{ cassandra_install_dir }}'
+    owner: '{{ cassandra_service_user }}'
+    group: 'adm'
+    state: 'directory'
+
+- name: Unpack binary tarball
+  unarchive:
+    src: '/tmp/{{ cassandra_tarball_file }}'
+    dest: '{{ cassandra_install_dir }}'
+    creates: '{{ cassandra_install_dir }}/bin/cassandra'
+    owner: '{{ cassandra_service_user }}'
+    group: 'adm'
+    remote_src: yes
+    extra_opts:
+      - '--strip-components=1'

@@ -1,0 +1,33 @@
+---
+- name: Create runtime directories
+  file:
+    path: '{{ item }}'
+    owner: '{{ cassandra_service_user }}'
+    group: 'daemon'
+    state: directory
+  with_items:
+  - '{{ cassandra_data_dir }}/data'
+  - '{{ cassandra_data_dir }}/commitlog'
+  - '{{ cassandra_data_dir }}/saved_caches'
+
+- name: Backup original config
+  copy:
+    src: '{{ cassandra_install_dir }}/conf/cassandra.yaml'
+    dest: '{{ cassandra_install_dir }}/conf/cassandra.yaml.original'
+    force: false
+    remote_src: true
+
+- name: Create node config
+  template:
+    src: 'cassandra.yaml.j2'
+    dest: '{{ cassandra_install_dir }}/conf/cassandra.yaml'
+
+- name: Create DC config
+  template:
+    src: 'cassandra-rackdc.properties.j2'
+    dest: '{{ cassandra_install_dir }}/conf/cassandra-rackdc.properties'
+
+- name: Remove topology config
+  file:
+    path: '{{ cassandra_install_dir }}/conf/cassandra-topology.properties'
+    state: absent

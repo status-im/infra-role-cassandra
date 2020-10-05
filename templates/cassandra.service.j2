@@ -1,0 +1,18 @@
+[Unit]
+Description="Cassandra -  distributed, wide column store, NoSQL database"
+Documentation=https://cassandra.apache.org/
+Requires=network-online.target
+After=network-online.target
+ConditionFileNotEmpty={{ cassandra_install_dir }}/conf/cassandra.yaml
+
+[Service]
+User={{ cassandra_service_name }}
+ExecStart={{ cassandra_install_dir }}/bin/cassandra -f -p /run/cassandra/main.pid
+Restart=on-failure
+PIDFile=/run/cassandra/main.pid
+WorkingDirectory=/var/lib/cassandra
+RuntimeDirectory=cassandra
+PermissionsStartOnly=True
+
+[Install]
+WantedBy=multi-user.target

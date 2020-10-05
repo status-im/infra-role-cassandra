@@ -1,0 +1,19 @@
+---
+cassandra_version: '3.11.7'
+cassandra_tarball_file: 'apache-cassandra-{{ cassandra_version }}-bin.tar.gz'
+cassandra_tarball_url: 'https://archive.apache.org/dist/cassandra/{{ cassandra_version }}/{{ cassandra_tarball_file }}'
+cassandra_tarball_sha256: 'b9c0d5b08ae2660810227b1881e8b7b5bc9ae0549cb8efb866b99884ad7346e2'
+cassandra_install_dir: '/opt/cassandra'
+
+cassandra_service_name: 'cassandra'
+cassandra_service_user: 'cassandra'
+cassandra_storage_port: 7000
+cassandra_native_port: 9042
+
+cassandra_data_dir: '/var/lib/cassandra'
+cassandra_cluster_name: ~
+cassandra_listen_address: '{{ ansible_local.tinc.vpn_ip }}'
+cassandra_rpc_address: '{{ ansible_local.tinc.vpn_ip }}'
+cassandra_num_tokens: 256
+cassandra_dc: '{{ data_center }}'
+cassandra_rack: 'main'

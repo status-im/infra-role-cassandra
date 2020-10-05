@@ -1,0 +1,15 @@
+---
+- name: Get Cassandra node addresses
+  uri:
+    url: '{{ consul_catalog_url }}/service/{{ cassandra_service_name }}'
+    method: GET
+    validate_certs: no
+  register: cassandra_services
+
+- name: Extract service IP addresses
+  set_fact:
+    cassandra_seeds: |
+      {{ cassandra_services.json
+      | map(attribute="ServiceAddress")
+      | reject('equalto', ansible_local.tinc.vpn_ip)
+      | list }}
