@@ -1,7 +1,7 @@
 ---
 - name: Get Cassandra node addresses
   uri:
-    url: '{{ consul_catalog_url }}/service/{{ cassandra_service_name }}'
+    url: '{{ consul_catalog_url }}/service/{{ cassandra_service_name }}?node-meta=cluster_name:{{ cassandra_cluster_name }}'
     method: GET
     validate_certs: no
   register: cassandra_services
