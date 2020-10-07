@@ -17,3 +17,6 @@ cassandra_rpc_address: '{{ ansible_local.tinc.vpn_ip }}'
 cassandra_num_tokens: 256
 cassandra_dc: '{{ data_center }}'
 cassandra_rack: 'main'
+
+# URL of Consul Catalog API
+consul_catalog_url: ~

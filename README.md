@@ -12,6 +12,8 @@ cassandra_cluster_name: 'my-cassandra-cluster'
 cassandra_num_tokens: 256
 cassandra_storage_port: 7000
 cassandra_native_port: 9042
+
+consul_catalog_url: 'http://localhost:1234/v1/catalog'
 ```
 
 # Management
