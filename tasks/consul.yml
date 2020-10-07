@@ -17,3 +17,7 @@
             name: Cassandra Healthcheck
             type: script
             script: '/bin/systemctl is-active {{ cassandra_service_name }}'
+
+# Necessary for discovery step to work
+- name: Reload Consul service
+  command: 'consul reload'
