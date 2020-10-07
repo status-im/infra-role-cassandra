@@ -9,6 +9,8 @@ cassandra_service_name: 'cassandra'
 cassandra_service_user: 'cassandra'
 cassandra_storage_port: 7000
 cassandra_native_port: 9042
+cassandra_users: []
+#  - { user: 'admin', pass: 'secret' }
 
 cassandra_data_dir: '/var/lib/cassandra'
 cassandra_cluster_name: ~

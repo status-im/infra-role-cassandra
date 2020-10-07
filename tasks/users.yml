@@ -1,0 +1,12 @@
+---
+- name: Create specified DB users
+  shell: |
+    echo "CREATE ROLE {{ item.user }} WITH SUPERUSER = true AND LOGIN = true AND PASSWORD = '{{ item.pass }}';" | \
+      /opt/cassandra/bin/cqlsh {{ cassandra_listen_address }} -u '{{ item.user }}' -p '{{ item.user }}'
+  with_items: '{{ cassandra_users }}'
+
+- name: Disable default user
+  shell: |
+    echo "ALTER ROLE cassandra WITH SUPERUSER = false AND LOGIN = false;" | \
+      /opt/cassandra/bin/cqlsh {{ cassandra_listen_address }} -u '{{ item.user }}' -p '{{ item.user }}'
+  when: '{{ (cassandra_users|length) > 0 }}'

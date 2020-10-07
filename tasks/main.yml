@@ -4,3 +4,4 @@
 - import_tasks: discover.yml
 - import_tasks: config.yml
 - import_tasks: service.yml
+- import_tasks: users.yml
