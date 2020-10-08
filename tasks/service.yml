@@ -21,3 +21,11 @@
     name: '{{ cassandra_service_name }}.service'
     state: restarted
     enabled: true
+
+- name: Wait for CQL port to open
+  wait_for:
+    port: '{{ cassandra_native_port }}'
+    host: '{{ cassandra_listen_address }}'
+    connect_timeout: 3
+    delay: 3
+    timeout: 60
