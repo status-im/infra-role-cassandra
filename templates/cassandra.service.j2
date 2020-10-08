@@ -10,7 +10,7 @@ User={{ cassandra_service_name }}
 ExecStart={{ cassandra_install_dir }}/bin/cassandra -f -p /run/cassandra/main.pid
 Restart=on-failure
 PIDFile=/run/cassandra/main.pid
-WorkingDirectory=/var/lib/cassandra
+WorkingDirectory={{ cassandra_data_dir }}
 RuntimeDirectory=cassandra
 PermissionsStartOnly=True
 
