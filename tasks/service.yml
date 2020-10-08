@@ -12,15 +12,21 @@
     src: 'cassandra.service.j2'
     dest: '/lib/systemd/system/{{ cassandra_service_name }}.service'
     mode: 0644
+  register: cassandra_service_file
 
 - name: Reload Systemctl
   command: systemctl daemon-reload
+  when: cassandra_service_file.changed
 
-- name: Start Service
+- name: (Re)Start Service
   service:
     name: '{{ cassandra_service_name }}.service'
     state: restarted
     enabled: true
+  when: >
+    cassandra_config_file.changed or
+    cassandra_rackdc_file.changed or
+    cassandra_service_file.changed
 
 - name: Wait for CQL port to open
   wait_for:

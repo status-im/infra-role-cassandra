@@ -21,11 +21,13 @@
   template:
     src: 'cassandra.yaml.j2'
     dest: '{{ cassandra_install_dir }}/conf/cassandra.yaml'
+  register: cassandra_config_file
 
 - name: Create DC config
   template:
     src: 'cassandra-rackdc.properties.j2'
     dest: '{{ cassandra_install_dir }}/conf/cassandra-rackdc.properties'
+  register: cassandra_rackdc_file
 
 - name: Remove topology config
   file:
