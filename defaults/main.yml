@@ -9,8 +9,12 @@ cassandra_service_name: 'cassandra'
 cassandra_service_user: 'cassandra'
 cassandra_storage_port: 7000
 cassandra_native_port: 9042
-cassandra_users: []
+cassandra_db_users: []
 #  - { user: 'admin', pass: 'secret' }
+
+# role/user that always exists in a new cluster
+cassandra_db_default_user: 'cassandra'
+cassandra_db_default_pass: 'cassandra'
 
 cassandra_data_dir: '/var/lib/cassandra'
 cassandra_cluster_name: ~

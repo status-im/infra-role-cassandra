@@ -12,13 +12,13 @@ cassandra_cluster_name: 'my-cassandra-cluster'
 cassandra_num_tokens: 256
 cassandra_storage_port: 7000
 cassandra_native_port: 9042
-cassandra_users:
+cassandra_db_users:
   - { user: 'admin', pass: 'secret' }
   - { user: 'app-1', pass: 'secret' }
 
 consul_catalog_url: 'http://localhost:1234/v1/catalog'
 ```
-If `cassandra_users` is an empty list no authentication is required.
+If `cassandra_db_users` is an empty list no authentication is required.
 
 # Management
 

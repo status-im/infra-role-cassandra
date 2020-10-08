@@ -1,12 +1,32 @@
 ---
+- name: Check default user connection
+  set_fact:
+    echo "DESCRIBE CLUSTER;" |
+      /opt/cassandra/bin/cqlsh {{ cassandra_listen_address }} \
+        -u '{{ cassandra_db_default_user }}' \
+        -p '{{ cassandra_db_default_pass }}'
+  ignore_errors: true
+  register: default_user_auth
+
+# If default user is disabled just use first defined user
+- name: Pick DB auth credentials to use
+  set_fact:
+    cassandra_db_default_user: '{{ cassandra_db_users[0].user }}'
+    cassandra_db_default_pass: '{{ cassandra_db_users[0].pass }}'
+  when: default_user_auth.failed
+
 - name: Create specified DB users
   shell: |
     echo "CREATE ROLE {{ item.user }} WITH SUPERUSER = true AND LOGIN = true AND PASSWORD = '{{ item.pass }}';" | \
-      /opt/cassandra/bin/cqlsh {{ cassandra_listen_address }} -u '{{ item.user }}' -p '{{ item.user }}'
-  with_items: '{{ cassandra_users }}'
+      /opt/cassandra/bin/cqlsh {{ cassandra_listen_address }} \
+        -u '{{ cassandra_db_default_user }}' \
+        -p '{{ cassandra_db_default_pass }}'
+  with_items: '{{ cassandra_db_users }}'
 
 - name: Disable default user
   shell: |
     echo "ALTER ROLE cassandra WITH SUPERUSER = false AND LOGIN = false;" | \
-      /opt/cassandra/bin/cqlsh {{ cassandra_listen_address }} -u '{{ item.user }}' -p '{{ item.user }}'
-  when: '{{ (cassandra_users|length) > 0 }}'
+      /opt/cassandra/bin/cqlsh {{ cassandra_listen_address }} \
+        -u '{{ cassandra_db_users[0].user }}' \
+        -p '{{ cassandra_db_users[0].pass }}'
+  when: '{{ (cassandra_db_users|length) > 0 }}'

@@ -7,7 +7,7 @@ cluster_name: '{{ cassandra_cluster_name | mandatory }}'
 # - AllowAllAuthenticator performs no checks - set it to disable authentication.
 # - PasswordAuthenticator relies on username/password pairs to authenticate users.
 #   It keeps usernames and hashed passwords in system_auth.roles table.
-authenticator: {{ (cassandra_users|length > 0) | ternary("PasswordAuthenticator", "AllowAllAuthenticator") }}
+authenticator: {{ (cassandra_db_users|length > 0) | ternary("PasswordAuthenticator", "AllowAllAuthenticator") }}
 
 # Manages access to databases and stores role data in the system_auth keyspace.
 role_manager: CassandraRoleManager
