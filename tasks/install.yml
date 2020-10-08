@@ -8,6 +8,7 @@
     url: '{{ cassandra_tarball_url }}'
     dest: '/tmp/{{ cassandra_tarball_file }}'
     checksum: 'sha256:{{ cassandra_tarball_sha256 }}'
+    mode: 0644
 
 - name: Create Service User
   user:
