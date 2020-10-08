@@ -1,11 +1,12 @@
 ---
 - name: Check default user connection
-  set_fact:
+  shell: |
     echo "DESCRIBE CLUSTER;" |
       /opt/cassandra/bin/cqlsh {{ cassandra_listen_address }} \
         -u '{{ cassandra_db_default_user }}' \
         -p '{{ cassandra_db_default_pass }}'
   ignore_errors: true
+  no_log: true
   register: default_user_auth
 
 # If default user is disabled just use first defined user
