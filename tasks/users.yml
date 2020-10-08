@@ -31,4 +31,4 @@
       /opt/cassandra/bin/cqlsh {{ cassandra_listen_address }} \
         -u '{{ cassandra_db_users[0].user }}' \
         -p '{{ cassandra_db_users[0].pass }}'
-  when: '{{ (cassandra_db_users|length) > 0 }}'
+  when: cassandra_db_users|length > 0
