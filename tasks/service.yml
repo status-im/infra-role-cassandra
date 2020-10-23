@@ -21,10 +21,10 @@
 - name: (Re)Start Service
   service:
     name: '{{ cassandra_service_name }}.service'
-    state: restarted
+    state: 'restarted'
     enabled: true
   when: >
-    cassandra_binary.changed or
+    cassandra_installation.changed or
     cassandra_config_file.changed or
     cassandra_rackdc_file.changed or
     cassandra_service_file.changed

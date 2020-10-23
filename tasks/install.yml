@@ -3,33 +3,43 @@
   apt:
     name: openjdk-8-jre-headless
 
-- name: Download binary tarball
-  get_url:
-    url: '{{ cassandra_tarball_url }}'
-    dest: '/tmp/{{ cassandra_tarball_file }}'
-    checksum: 'sha256:{{ cassandra_tarball_sha256 }}'
-    mode: 0644
-
 - name: Create Service User
   user:
     name: '{{ cassandra_service_user }}'
     group: daemon
     comment: 'Cassandra service user'
 
-- name: Create install directory
-  file:
+- name: Check current Cassandra version
+  stat:
     path: '{{ cassandra_install_dir }}'
-    owner: '{{ cassandra_service_user }}'
-    group: 'adm'
-    state: 'directory'
+  ignore_errors: true
+  register: cassandra_symlink
 
-- name: Unpack binary tarball
-  unarchive:
-    src: '/tmp/{{ cassandra_tarball_file }}'
-    dest: '{{ cassandra_install_dir }}'
-    creates: '{{ cassandra_install_dir }}/bin/cassandra'
-    owner: '{{ cassandra_service_user }}'
-    group: 'adm'
-    remote_src: yes
-    extra_opts:
-      - '--strip-components=1'
+- name: Install Cassandra
+  when: cassandra_tarball_path != cassandra_symlink.stat.lnk_target
+  block:
+    - name: Download binary tarball
+      get_url:
+        url: '{{ cassandra_tarball_url }}'
+        dest: '/tmp/{{ cassandra_tarball_file }}'
+        checksum: 'sha256:{{ cassandra_tarball_sha256 }}'
+        mode: 0644
+
+    - name: Unpack binary tarball
+      unarchive:
+        src: '/tmp/{{ cassandra_tarball_file }}'
+        dest: '/opt'
+        creates: '/opt/{{ cassandra_tarball_name }}/bin/cassandra'
+        owner: '{{ cassandra_service_user }}'
+        group: 'adm'
+        remote_src: yes
+
+    - name: Symlink Cassandra version
+      file:
+        src: '{{ cassandra_tarball_path }}'
+        dest: '{{ cassandra_install_dir }}'
+        owner: '{{ cassandra_service_user }}'
+        group: 'adm'
+        state: 'link'
+        force: true
+      register: cassandra_installation
