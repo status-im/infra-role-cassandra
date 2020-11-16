@@ -14,6 +14,7 @@
   copy:
     src: '{{ cassandra_install_dir }}/conf/cassandra.yaml'
     dest: '{{ cassandra_install_dir }}/conf/cassandra.yaml.original'
+    mode: 0664
     force: false
     remote_src: true
 
