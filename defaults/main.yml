@@ -26,5 +26,9 @@ cassandra_num_tokens: 256
 cassandra_dc: '{{ data_center }}'
 cassandra_rack: 'main'
 
+# Java VM memory
+cassandra_jvm_min_heap: 2G
+cassandra_jvm_max_heap: 2G
+
 # URL of Consul Catalog API
 consul_catalog_url: ~

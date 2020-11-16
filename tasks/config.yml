@@ -30,6 +30,12 @@
     dest: '{{ cassandra_install_dir }}/conf/cassandra-rackdc.properties'
   register: cassandra_rackdc_file
 
+- name: Create JVM options
+  template:
+    src: 'jvm.options.j2'
+    dest: '{{ cassandra_install_dir }}/conf/jvm.options'
+  register: cassandra_jvmopts_file
+
 - name: Remove topology config
   file:
     path: '{{ cassandra_install_dir }}/conf/cassandra-topology.properties'
