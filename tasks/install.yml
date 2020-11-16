@@ -16,7 +16,9 @@
   register: cassandra_symlink
 
 - name: Install Cassandra
-  when: cassandra_tarball_path != cassandra_symlink.stat.lnk_target
+  when: >
+    cassandra_symlink.stat.exists == false or
+    cassandra_tarball_path != cassandra_symlink.stat.lnk_target
   block:
     - name: Download binary tarball
       get_url:
