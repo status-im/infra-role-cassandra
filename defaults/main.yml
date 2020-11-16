@@ -1,10 +1,10 @@
 ---
-cassandra_version: '3.11.8'
+cassandra_version: '3.11.9'
 cassandra_tarball_name: 'apache-cassandra-{{ cassandra_version }}'
 cassandra_tarball_file: '{{ cassandra_tarball_name }}-bin.tar.gz'
 cassandra_tarball_path: '/opt/{{ cassandra_tarball_name }}'
 cassandra_tarball_url: 'https://archive.apache.org/dist/cassandra/{{ cassandra_version }}/{{ cassandra_tarball_file }}'
-cassandra_tarball_sha256: '3d04e4b79c3f264cb491e1bc5127ec465102b55005a6c8f4af8548b32e74bf50'
+cassandra_tarball_sha256: '0c90cf369e86cef10c53be2d0196ba4019150f2a84653a291547821f18536ab2'
 cassandra_install_dir: '/opt/cassandra'
 
 cassandra_service_name: 'cassandra'
