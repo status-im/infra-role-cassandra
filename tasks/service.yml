@@ -25,9 +25,7 @@
     enabled: true
   when: >
     cassandra_installation.changed or
-    cassandra_config_file.changed or
-    cassandra_rackdc_file.changed or
-    cassandra_jvmopts_file.changed or
+    cassandra_config_files.changed or
     cassandra_service_file.changed
 
 - name: Wait for CQL port to open

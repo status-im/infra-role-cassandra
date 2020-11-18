@@ -18,23 +18,18 @@
     force: false
     remote_src: true
 
-- name: Create node config
+- name: Create config files
   template:
-    src: 'cassandra.yaml.j2'
-    dest: '{{ cassandra_install_dir }}/conf/cassandra.yaml'
-  register: cassandra_config_file
-
-- name: Create DC config
-  template:
-    src: 'cassandra-rackdc.properties.j2'
-    dest: '{{ cassandra_install_dir }}/conf/cassandra-rackdc.properties'
-  register: cassandra_rackdc_file
-
-- name: Create JVM options
-  template:
-    src: 'jvm.options.j2'
-    dest: '{{ cassandra_install_dir }}/conf/jvm.options'
-  register: cassandra_jvmopts_file
+    src: '{{ item }}.j2'
+    dest: '{{ cassandra_install_dir }}/conf/{{ item }}'
+    owner: '{{ cassandra_service_user }}'
+    group: 'adm'
+    mode: 0644
+  with_items:
+    - 'jvm.options'
+    - 'cassandra.yaml'
+    - 'cassandra-rackdc.properties'
+  register: cassandra_config_files
 
 - name: Remove topology config
   file:
