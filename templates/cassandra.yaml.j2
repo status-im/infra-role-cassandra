@@ -74,6 +74,9 @@ saved_caches_directory: {{ cassandra_data_dir }}/saved_caches
 #
 endpoint_snitch: GossipingPropertyFileSnitch
 
+# Maximum memory to use for sstable chunk cache and buffer pooling.
+file_cache_size_in_mb: 1024
+
 # How long the coordinator should wait for read operations to complete
 read_request_timeout_in_ms: 10000
 # How long the coordinator should wait for seq or index scans to complete
