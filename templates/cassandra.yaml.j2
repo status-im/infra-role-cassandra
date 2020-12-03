@@ -77,6 +77,21 @@ endpoint_snitch: GossipingPropertyFileSnitch
 # Maximum memory to use for sstable chunk cache and buffer pooling.
 file_cache_size_in_mb: 1024
 
+# For workloads with more data than can fit in memory, Cassandra's
+# bottleneck will be reads that need to fetch data from
+# disk. "concurrent_reads" should be set to (16 * number_of_drives) in
+# order to allow the operations to enqueue low enough in the stack
+# that the OS and drives can reorder them. Same applies to
+# "concurrent_counter_writes", since counter writes read the current
+# values before incrementing and writing them back.
+#
+# On the other hand, since writes are almost never IO bound, the ideal
+# number of "concurrent_writes" is dependent on the number of cores in
+# your system; (8 * number_of_cores) is a good rule of thumb.
+concurrent_reads: 32
+concurrent_writes: {{ 8 * ansible_processor_vcpus }}
+concurrent_counter_writes: 32
+
 # How long the coordinator should wait for read operations to complete
 read_request_timeout_in_ms: 10000
 # How long the coordinator should wait for seq or index scans to complete
