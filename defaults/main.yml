@@ -20,8 +20,8 @@ cassandra_db_default_pass: 'cassandra'
 
 cassandra_data_dir: '/var/lib/cassandra'
 cassandra_cluster_name: ~
-cassandra_listen_address: '{{ ansible_local.tinc.vpn_ip }}'
-cassandra_rpc_address: '{{ ansible_local.tinc.vpn_ip }}'
+cassandra_listen_address: '{{ ansible_default_ipv4.address }}'
+cassandra_rpc_address: '127.0.0.1'
 cassandra_num_tokens: 256
 cassandra_dc: '{{ data_center }}'
 cassandra_rack: 'main'

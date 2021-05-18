@@ -8,7 +8,7 @@
         tags: ['cassandra', 'logs']
         # we advertise the port with basic auth
         port: '{{ cassandra_native_port }}'
-        address: '{{ ansible_local.tinc.vpn_ip }}'
+        address: '{{ cassandra_listen_address }}'
         meta:
           # uset do distinguish different clusters
           cluster_name: '{{ cassandra_cluster_name }}'

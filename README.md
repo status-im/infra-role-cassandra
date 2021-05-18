@@ -12,12 +12,15 @@ cassandra_cluster_name: 'my-cassandra-cluster'
 cassandra_num_tokens: 256
 cassandra_storage_port: 7000
 cassandra_native_port: 9042
+cassandra_listen_address: '192.168.1.1'
 cassandra_db_users:
   - { user: 'admin', pass: 'secret' }
   - { user: 'app-1', pass: 'secret' }
 
 consul_catalog_url: 'http://localhost:1234/v1/catalog'
 ```
+It is absolutely crucial that you set `cassandra_listen_address` to an address that other nodes in the cluster can access. Values like `0.0.0.0` will not work.
+
 If `cassandra_db_users` is an empty list no authentication is required.
 
 # Management
