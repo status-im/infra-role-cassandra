@@ -31,7 +31,7 @@
 - name: Wait for CQL port to open
   wait_for:
     port: '{{ cassandra_native_port }}'
-    host: '{{ cassandra_listen_address }}'
-    connect_timeout: 3
-    delay: 3
+    host: '{{ cassandra_rpc_address }}'
+    connect_timeout: 30
+    delay: 10
     timeout: 120

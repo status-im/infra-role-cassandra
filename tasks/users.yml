@@ -2,7 +2,7 @@
 - name: Check default user connection
   shell: |
     echo "DESCRIBE CLUSTER;" |
-      /opt/cassandra/bin/cqlsh {{ cassandra_listen_address }} \
+      /opt/cassandra/bin/cqlsh '{{ cassandra_rpc_address }}' \
         -u '{{ cassandra_db_default_user }}' \
         -p '{{ cassandra_db_default_pass }}'
   ignore_errors: true
@@ -19,7 +19,7 @@
 - name: Create specified DB users
   shell: |
     echo "CREATE ROLE IF NOT EXISTS {{ item.user }} WITH SUPERUSER = true AND LOGIN = true AND PASSWORD = '{{ item.pass }}';" | \
-      /opt/cassandra/bin/cqlsh {{ cassandra_listen_address }} \
+      /opt/cassandra/bin/cqlsh '{{ cassandra_rpc_address }}' \
         -u '{{ cassandra_db_default_user }}' \
         -p '{{ cassandra_db_default_pass }}'
   with_items: '{{ cassandra_db_users }}'
@@ -29,7 +29,7 @@
 - name: Disable default user
   shell: |
     echo "ALTER ROLE cassandra WITH SUPERUSER = false AND LOGIN = false;" | \
-      /opt/cassandra/bin/cqlsh {{ cassandra_listen_address }} \
+      /opt/cassandra/bin/cqlsh '{{ cassandra_rpc_address }}' \
         -u '{{ cassandra_db_users[0].user }}' \
         -p '{{ cassandra_db_users[0].pass }}'
   when: cassandra_db_users|length > 0
