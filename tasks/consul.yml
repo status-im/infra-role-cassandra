@@ -20,4 +20,4 @@
 
 # Necessary for discovery step to work
 - name: Reload Consul service
-  command: 'consul reload'
+  service: name=consul state=reloaded
